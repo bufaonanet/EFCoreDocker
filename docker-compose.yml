@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  efcoredocker.api:
+    image: ${DOCKER_REGISTRY-}productswebapi
+    build:
+      context: .
+      dockerfile: EFCoreDocker.Api/Dockerfile
+    depends_on:
+      - sqlserver
+  
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU12-ubuntu-20.04
+    hostname: 'sqlserver'
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: "Admin@123"
+    volumes:
+      - C:\MyDev\Doker\projetos\dados:/var/opt/mssql3
+    ports:
+      - '11433:1433'    
+    expose:
+      - 1433
